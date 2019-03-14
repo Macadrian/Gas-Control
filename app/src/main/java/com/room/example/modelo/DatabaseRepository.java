@@ -12,13 +12,6 @@ public class DatabaseRepository {
     private ComunidadDao comunidadDao;
     private List<ComunidadEntity> listaComunidad;
 
-    private Comunidad comunidadDao;
-    private List<ComunidadEntity> listaComunidad;
-
-    private ComunidadDao comunidadDao;
-    private List<ComunidadEntity> listaComunidad;
-
-
     public DatabaseRepository(Context application) {
         AppDatabase appDatabase = AppDatabase.getDatabase(application);
         comunidadDao = appDatabase.comunidadDao();
@@ -27,11 +20,5 @@ public class DatabaseRepository {
 
     public List<ComunidadEntity> getListaComunidad() {
         return listaComunidad;
-    }
-    public List<ProvinciaEntity> getListaProvincia() {
-        return listaProvincia;
-    }
-    public List<PuebloEntity> getListaPueblo() {
-        return listaPueblo;
     }
 }
