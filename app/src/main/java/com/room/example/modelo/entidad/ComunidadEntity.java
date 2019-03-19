@@ -7,20 +7,21 @@ import androidx.room.PrimaryKey;
 
 
 @Entity(tableName = "comunidad_tabla")
-public class ComunidadEntity {
+public class ComunidadEntity
+{
     @PrimaryKey
     @ColumnInfo(name = "codigo")
     @NonNull
-    private String codigo;
+    private int codigo;
 
     @ColumnInfo(name = "nombre")
     private String nombre;
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

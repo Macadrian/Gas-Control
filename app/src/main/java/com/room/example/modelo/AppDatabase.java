@@ -5,24 +5,20 @@ import android.content.Context;
 import android.util.Log;
 
 import com.room.example.modelo.entidad.ComunidadEntity;
-import com.room.example.modelo.dao.ComunidadDao;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 @Database(entities = {ComunidadEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static String DATABASE_NAME = "precio_database7";
 
-    public abstract ComunidadDao comunidadDao();
+    public abstract IDao dao();
 
     private static volatile AppDatabase INSTANCE;
 
@@ -61,7 +57,7 @@ public abstract class AppDatabase extends RoomDatabase {
             db.execSQL("insert into comunidad_tabla (codigo,nombre) values ('03', 'otra')");
 
             ComunidadEntity ce = new ComunidadEntity();
-            ce.setCodigo("02");
+            ce.setCodigo(2);
             ce.setNombre("hooola");
             //INSTANCE.comunidadDao().insert(ce);
 

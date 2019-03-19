@@ -11,19 +11,22 @@ public class ProvinciaEntity {
     @PrimaryKey
     @ColumnInfo(name = "codigo")
     @NonNull
-    private String codigo;
-    private String codigoComunidad;
+    private int codigo;
+
+    @ColumnInfo(name = "idComunidad")
+    private int codigoComunidad;
 
     @ColumnInfo(name = "nombre")
     private String nombre;
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
+
 
     public String getNombre() {
         return nombre;
@@ -33,9 +36,10 @@ public class ProvinciaEntity {
         this.nombre = nombre;
     }
 
-    public String getCodigoComunidad() { return codigoComunidad; }
 
-    public void setCodigoComunidad(String nombre) {
-        this.codigoComunidad = codigoComunidad;
+    public int getCodigoComunidad() { return codigoComunidad; }
+
+    public void setCodigoComunidad(int idComunidad) {
+        this.codigoComunidad = idComunidad;
     }
 }

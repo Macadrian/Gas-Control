@@ -1,12 +1,10 @@
 package com.room.example;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
 
-import com.room.example.modelo.AppDatabase;
-import com.room.example.modelo.DatabaseRepository;
+import com.room.example.modelo.Model;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
@@ -36,8 +34,8 @@ public class ExampleInstrumentedTest {
     @Test
     public void conexion() {
         Context appContext = InstrumentationRegistry.getTargetContext();
-        DatabaseRepository databaseRepository = new DatabaseRepository(appContext);
-        List comunidadLista = databaseRepository.getListaComunidad();
+        Model model = new Model(appContext);
+        List comunidadLista = model.getListaComunidad();
         Log.d("Test", "Tamaño lista comunidad: " + comunidadLista.size());
     }
 }
