@@ -17,6 +17,14 @@ public class ComunidadEntity
     @ColumnInfo(name = "nombre")
     private String nombre;
 
+    public ComunidadEntity(int codigo, String nombre) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+    }
+
+    public ComunidadEntity() {
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -32,4 +40,7 @@ public class ComunidadEntity
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    @Override
+    public String toString() { return "" + nombre; }
 }

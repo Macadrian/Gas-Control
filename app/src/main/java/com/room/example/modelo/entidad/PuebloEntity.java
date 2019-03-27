@@ -42,4 +42,12 @@ public class PuebloEntity {
     public void setCodigoComunidad(int idProvincia) {
         this.idProvincia = idProvincia;
     }
+
+    public int getIdProvincia() {
+        return idProvincia;
+    }
+
+    public void setIdProvincia(int idProvincia) {
+        this.idProvincia = idProvincia;
+    }
 }

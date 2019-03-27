@@ -19,6 +19,12 @@ public class ProvinciaEntity {
     @ColumnInfo(name = "nombre")
     private String nombre;
 
+    public ProvinciaEntity(int codigo, int codigoComunidad, String nombre) {
+        this.codigo = codigo;
+        this.codigoComunidad = codigoComunidad;
+        this.nombre = nombre;
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -42,4 +48,7 @@ public class ProvinciaEntity {
     public void setCodigoComunidad(int idComunidad) {
         this.codigoComunidad = idComunidad;
     }
+
+    @Override
+    public String toString() { return "" + nombre; }
 }

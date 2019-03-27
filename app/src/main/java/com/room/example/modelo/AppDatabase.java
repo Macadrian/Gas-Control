@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.room.example.modelo.entidad.ComunidadEntity;
+import com.room.example.modelo.entidad.ProvinciaEntity;
+import com.room.example.modelo.entidad.PuebloEntity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -13,10 +15,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {ComunidadEntity.class}, version = 1)
+@Database(entities = {ComunidadEntity.class, ProvinciaEntity.class, PuebloEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
-    private static String DATABASE_NAME = "precio_database7";
+    private static String DATABASE_NAME = "precio_database8";
 
     public abstract IDao dao();
 
@@ -59,7 +61,7 @@ public abstract class AppDatabase extends RoomDatabase {
             ComunidadEntity ce = new ComunidadEntity();
             ce.setCodigo(2);
             ce.setNombre("hooola");
-            //INSTANCE.comunidadDao().insert(ce);
+            INSTANCE.dao().insert(ce);
 
         }
 
