@@ -7,6 +7,7 @@ import com.room.example.modelo.IModel;
 import com.room.example.modelo.Model;
 import com.room.example.modelo.entidad.ComunidadEntity;
 import com.room.example.modelo.entidad.ProvinciaEntity;
+import com.room.example.modelo.entidad.PuebloEntity;
 import com.room.example.view.DataActivity;
 import com.room.example.view.IDataActivity;
 
@@ -38,9 +39,21 @@ public class DataPresenter implements IDataPresenter
     }
 
     @Override
+    public void obtenerListaPueblos() {
+        List<PuebloEntity> lista = iModel.obtenerListaPueblos();
+        iDataActivity.updateSpinnerTowns(lista);
+    }
+
+    @Override
     public void obtenerListaFuels()
     {
         List<Fuel> lista = iModel.obtenerListaFuels();
         iDataActivity.updateSpinnerFuels(lista);
+    }
+
+    @Override
+    public void gestionarBoton()
+    {
+        //if(iDataActivity)
     }
 }

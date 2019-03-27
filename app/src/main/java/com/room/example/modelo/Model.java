@@ -32,17 +32,23 @@ public class Model implements IModel
 
         listaComunidad = new ArrayList<>();
 
-        new ObtenerListaComunidadesTask(iDao).execute();
+        //new ObtenerListaComunidadesTask(iDao).execute();
 
-        //listaComunidad = iDao.obtenerListaComunidad();
-        //listaComunidad.add(new ComunidadEntity(1,"hola"));
-        //listaComunidad.add(new ComunidadEntity(2,"adios"));
+        listaComunidad.add(new ComunidadEntity(1,"hola"));
+        listaComunidad.add(new ComunidadEntity(2,"adios"));
 
         listaProvincia = new ArrayList<>();
         listaProvincia.add(new ProvinciaEntity(1,1,"como te llamas"));
         listaProvincia.add(new ProvinciaEntity(2,1,"encantado de conocerte"));
         listaProvincia.add(new ProvinciaEntity(3,2,"ya nos veremos"));
         listaProvincia.add(new ProvinciaEntity(4,2,"que te vaya bien"));
+
+        listaPueblo = new ArrayList<>();
+        listaPueblo.add(new PuebloEntity(1,1,"hi"));
+        listaPueblo.add(new PuebloEntity(2,1,"helado"));
+        listaPueblo.add(new PuebloEntity(3,2,"adiós"));
+        listaPueblo.add(new PuebloEntity(4,2,"almirante"));
+        listaPueblo.add(new PuebloEntity(5,2,"casa"));
         //endregion
     }
 
@@ -54,14 +60,21 @@ public class Model implements IModel
     }
 
     @Override
-    public List<ComunidadEntity> obtenerListaComunidades() {
-        //listaComunidad = iDao.obtenerListaComunidad();
+    public List<ComunidadEntity> obtenerListaComunidades()
+    {
         return listaComunidad;
     }
 
     @Override
-    public List<ProvinciaEntity> obtenerListaProvincias() {
+    public List<ProvinciaEntity> obtenerListaProvincias()
+    {
         return listaProvincia;
+    }
+
+    @Override
+    public List<PuebloEntity> obtenerListaPueblos()
+    {
+        return listaPueblo;
     }
 
     @Override

@@ -19,6 +19,12 @@ public class PuebloEntity {
     @ColumnInfo(name = "nombre")
     private String nombre;
 
+    public PuebloEntity(int codigo, int idProvincia, String nombre) {
+        this.codigo = codigo;
+        this.idProvincia = idProvincia;
+        this.nombre = nombre;
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -50,4 +56,7 @@ public class PuebloEntity {
     public void setIdProvincia(int idProvincia) {
         this.idProvincia = idProvincia;
     }
+
+    @Override
+    public String toString() { return "" + nombre; }
 }
