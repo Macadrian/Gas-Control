@@ -15,6 +15,8 @@ import java.util.List;
 
 public class Model implements IModel
 {
+    private static Model INSTANCE;
+
     private IDao iDao;
     private List<ComunidadEntity> listaComunidad;
     private List<ProvinciaEntity> listaProvincia;
@@ -42,6 +44,13 @@ public class Model implements IModel
         listaProvincia.add(new ProvinciaEntity(3,2,"ya nos veremos"));
         listaProvincia.add(new ProvinciaEntity(4,2,"que te vaya bien"));
         //endregion
+    }
+
+    public static Model getInstance(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new Model(context);
+        }
+        return INSTANCE;
     }
 
     @Override
