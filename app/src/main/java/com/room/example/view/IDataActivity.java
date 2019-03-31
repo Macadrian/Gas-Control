@@ -13,6 +13,7 @@ public interface IDataActivity {
     void updateSpinnerTowns(List<PuebloEntity> list);
     void updateSpinnerFuels(List<ListaGasolina.GasType> list);
 
+    void mostrarProgreso(boolean active);
     void setButton(boolean activado);
     String getPuebloEscrito();
 }

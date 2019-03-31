@@ -15,6 +15,4 @@ public interface IModel
     void obtenerListaPueblos(Response.Listener listener, int codigoProvincia);
 
     void getTownStationsPrices(long pueblo, int gasType, Response.Listener listener, Response.ErrorListener errorListener, Context context);
-
-
 }

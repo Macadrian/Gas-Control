@@ -18,14 +18,14 @@ public class GasStation {
      */
     private String mAddress;
     private String mName;
-    private String mLength;
-    private String mLatitud;
+    private Double mLength;
+    private Double mLatitud;
 
     /**
      * @param price parameter of price to put on the listView item.
      * @param address parameter of the address to put on the listView item.
      */
-    public GasStation(Double price, String address, String name, String length, String latitud) {
+    public GasStation(Double price, String address, String name, Double length, Double latitud) {
         mPrice = price;
         mAddress = address;
         mLatitud = latitud;
@@ -45,11 +45,11 @@ public class GasStation {
         return mName;
     }
 
-    public String getLength() {
+    public Double getLength() {
         return mLength;
     }
 
-    public String getLatitud() {
+    public Double getLatitud() {
         return mLatitud;
     }
 }

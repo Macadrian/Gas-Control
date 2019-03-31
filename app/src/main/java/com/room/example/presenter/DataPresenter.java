@@ -37,8 +37,14 @@ public class DataPresenter implements IDataPresenter
     {
         iModel.obtenerListaComunidades(new Response.Listener<List<ComunidadEntity>>() {
             @Override
-            public void onResponse(List<ComunidadEntity> response) {
-                iDataActivity.updateSpinnerCommunities(response);
+            public void onResponse(List<ComunidadEntity> response)
+            {
+                if(!response.isEmpty())
+                {
+                    iDataActivity.updateSpinnerCommunities(response);
+                    iDataActivity.mostrarProgreso(false);
+                }
+                else iDataActivity.mostrarProgreso(true);
             }
         });
     }
@@ -49,7 +55,7 @@ public class DataPresenter implements IDataPresenter
         iModel.obtenerListaProvincias(new Response.Listener<List<ProvinciaEntity>>() {
             @Override
             public void onResponse(List<ProvinciaEntity> response) {
-                iDataActivity.updateSpinnerProvinces(response);
+                if(!response.isEmpty()) iDataActivity.updateSpinnerProvinces(response);
             }
         },codigoComunidad);
     }
@@ -59,8 +65,11 @@ public class DataPresenter implements IDataPresenter
         iModel.obtenerListaPueblos(new Response.Listener<List<PuebloEntity>>() {
             @Override
             public void onResponse(List<PuebloEntity> response) {
+                if(!response.isEmpty())
+                {
                 iDataActivity.updateSpinnerTowns(response);
                 listaPueblos = response;
+                }
             }
         },codigoProvincia);
     }

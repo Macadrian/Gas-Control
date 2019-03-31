@@ -68,8 +68,8 @@ public class PriceRequest {
                         parseDouble(jsonAux.getString("PrecioProducto")),
                         jsonAux.getString("Dirección"),
                         jsonAux.getString("Rótulo"),
-                        jsonAux.getString("Longitud (WGS84)"),
-                        jsonAux.getString("Latitud"));
+                        parseDouble(jsonAux.getString("Longitud (WGS84)")),
+                        parseDouble(jsonAux.getString("Latitud")));
                 lista.add(gasStation);
             }
 

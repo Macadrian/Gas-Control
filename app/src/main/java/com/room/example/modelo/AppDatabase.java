@@ -7,9 +7,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.room.example.R;
+import com.room.example.eventos.BaseDeDatosCargada;
 import com.room.example.modelo.entidad.ComunidadEntity;
 import com.room.example.modelo.entidad.ProvinciaEntity;
 import com.room.example.modelo.entidad.PuebloEntity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -22,12 +25,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 @Database(entities = {ComunidadEntity.class, ProvinciaEntity.class, PuebloEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
-    private static String DATABASE_NAME = "precio_database21";
+    private static String DATABASE_NAME = "precio_database29";
 
     public abstract IDao dao();
 
     private static volatile AppDatabase INSTANCE;
     private static Resources resources;
+    private  IModel iModel;
 
 
     public static AppDatabase getDatabase(final Context context) {
@@ -126,6 +130,9 @@ public abstract class AppDatabase extends RoomDatabase {
             }
 
             scanner.close();
+
+            //llamar a listener
+            EventBus.getDefault().post(new BaseDeDatosCargada());
             return null;
         }
     }

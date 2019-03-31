@@ -10,10 +10,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.room.example.ListaGasolina;
 import com.room.example.R;
+import com.room.example.eventos.BaseDeDatosCargada;
 import com.room.example.modelo.entidad.ComunidadEntity;
 import com.room.example.modelo.entidad.ProvinciaEntity;
 import com.room.example.modelo.entidad.PuebloEntity;
@@ -21,6 +23,12 @@ import com.room.example.presenter.DataPresenter;
 import com.room.example.presenter.IDataPresenter;
 
 import android.content.Intent;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -44,16 +52,16 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
     private Spinner spinnerFuel;
     private AutoCompleteTextView townTextView;
     private Button button;
+    private ProgressBar loadinDataBar;
 
     private IDataPresenter iDataPresenter;
 
     private long townCode;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.data_activity);
+        setContentView(R.layout.data_activity_new_version);
 
         /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)!= PackageManager.PERMISSION_GRANTED)
         {
@@ -67,14 +75,11 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
         townTextView = findViewById(R.id.TownAutoComplete);
         spinnerFuel = findViewById(R.id.FuelSpinner);
         button = findViewById(R.id.PricesButton);
+        loadinDataBar = findViewById(R.id.id_progressbardata);
 
         iDataPresenter = new DataPresenter(this);
 
         //endregion
-
-        iDataPresenter.obtenerListaComunidades();
-        iDataPresenter.obtenerListaFuels();
-        setButton(false);
 
         //Cuando seleccionamos un Item de la Comunidad...
         spinnerCommunity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -154,6 +159,21 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
             }
         });
     }
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+        iDataPresenter.obtenerListaComunidades();
+        iDataPresenter.obtenerListaFuels();
+        setButton(false);
+    }
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
     @Override
     public void updateSpinnerCommunities(List<ComunidadEntity> lista)
@@ -195,6 +215,16 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
         return townTextView.getText().toString();
     }
 
+    @Override
+    public void mostrarProgreso(boolean active)
+    {
+        if(!active) loadinDataBar.setVisibility(View.INVISIBLE);
+        else loadinDataBar.setVisibility(View.VISIBLE);
+    }
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseDeDatosCargada event)
+    {
+        iDataPresenter.obtenerListaComunidades();
+    }
 }

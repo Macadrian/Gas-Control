@@ -106,7 +106,7 @@ public class PriceListActivity extends AppCompatActivity implements  IPriceListA
         builder.setPositiveButton(R.string.map, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id)
             {
-                callMaps(gasolinera);// User clicked OK button
+                callMaps(gasolinera,20);// User clicked OK button
             }
         });
         builder.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -119,10 +119,9 @@ public class PriceListActivity extends AppCompatActivity implements  IPriceListA
         dialog.show();
     }
 
-    private void callMaps(GasStation gasStation)
+    private void callMaps(GasStation gasStation, int zoom)
     {
-        String coordenadas = "geo:"+gasStation.getLatitud()+","+gasStation.getLength()+"?z="+10;
-        //coordenadas.replace(",",".");
+        String coordenadas = "geo:"+gasStation.getLatitud()+","+gasStation.getLength()+"?z="+zoom;
         Uri gmmIntentUri = Uri.parse(coordenadas);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");

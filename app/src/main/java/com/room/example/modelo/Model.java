@@ -77,7 +77,6 @@ public class Model implements IModel
         new PriceRequest(context).getPrices(pueblo,gasType,listener,errorListener);
     }
 
-
     //region Tasks Classes
     private class ObtenerListaComunidadesTask extends AsyncTask<Void, Void, List<ComunidadEntity>>
     {
