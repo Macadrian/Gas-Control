@@ -11,7 +11,7 @@ public class PuebloEntity {
     @PrimaryKey
     @ColumnInfo(name = "codigo")
     @NonNull
-    private int codigo;
+    private long codigo;
 
     @ColumnInfo(name = "idProvincia")
     private int idProvincia;
@@ -19,13 +19,13 @@ public class PuebloEntity {
     @ColumnInfo(name = "nombre")
     private String nombre;
 
-    public PuebloEntity(int codigo, int idProvincia, String nombre) {
+    public PuebloEntity(long codigo, int idProvincia, String nombre) {
         this.codigo = codigo;
         this.idProvincia = idProvincia;
         this.nombre = nombre;
     }
 
-    public int getCodigo() {
+    public long getCodigo() {
         return codigo;
     }
 

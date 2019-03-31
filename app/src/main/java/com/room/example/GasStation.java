@@ -11,33 +11,45 @@ public class GasStation {
     /**
      * The private float variable of the price.
      */
-    private float mPrice;
+    private Double mPrice;
 
     /**
      * The private String variable of the address.
      */
     private String mAddress;
+    private String mName;
+    private String mLength;
+    private String mLatitud;
 
     /**
      * @param price parameter of price to put on the listView item.
      * @param address parameter of the address to put on the listView item.
      */
-    public GasStation(float price, String address) {
+    public GasStation(Double price, String address, String name, String length, String latitud) {
         mPrice = price;
         mAddress = address;
+        mLatitud = latitud;
+        mLength = length;
+        mName = name;
     }
 
-    /**
-     * @return Getter of the price.
-     */
-    public float getPrice() {
+    public Double getPrice() {
         return mPrice;
     }
 
-    /**
-     * @return Getter of the address.
-     */
     public String getAddress() {
         return mAddress;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public String getLength() {
+        return mLength;
+    }
+
+    public String getLatitud() {
+        return mLatitud;
     }
 }

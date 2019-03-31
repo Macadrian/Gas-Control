@@ -30,7 +30,7 @@ public interface IDao
 
     //--------- Tabla Pueblo ---------
 
-    @Query("select codigo, idProvincia, nombre from pueblo_tabla where idProvincia = :provincia order by nombre") //Filtrar por Comunidad
+    @Query("select codigo, idProvincia, nombre from pueblo_tabla where idProvincia = :provincia order by nombre") //Filtrar por Provincia
     List<PuebloEntity> obtenerListaPueblo(int provincia);
 
     @Insert

@@ -1,6 +1,6 @@
 package com.room.example.view;
 
-import com.room.example.Fuel;
+import com.room.example.ListaGasolina;
 import com.room.example.modelo.entidad.ComunidadEntity;
 import com.room.example.modelo.entidad.ProvinciaEntity;
 import com.room.example.modelo.entidad.PuebloEntity;
@@ -11,8 +11,8 @@ public interface IDataActivity {
     void updateSpinnerCommunities(List<ComunidadEntity> lista);
     void updateSpinnerProvinces(List<ProvinciaEntity> lista);
     void updateSpinnerTowns(List<PuebloEntity> list);
-    void updateSpinnerFuels(List<Fuel> list);
+    void updateSpinnerFuels(List<ListaGasolina.GasType> list);
 
-    String getPuebloElegido();
-    String getFuelElegido();
+    void setButton(boolean activado);
+    String getPuebloEscrito();
 }

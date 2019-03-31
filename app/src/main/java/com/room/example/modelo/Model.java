@@ -2,15 +2,26 @@ package com.room.example.modelo;
 
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.room.example.Fuel;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.room.example.ListaGasolina;
+import com.room.example.PriceRequest;
 import com.room.example.modelo.entidad.ComunidadEntity;
 import com.room.example.modelo.entidad.ProvinciaEntity;
 import com.room.example.modelo.entidad.PuebloEntity;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class Model implements IModel
@@ -18,38 +29,21 @@ public class Model implements IModel
     private static Model INSTANCE;
 
     private IDao iDao;
+    private AppDatabase appDatabase;
+
     private List<ComunidadEntity> listaComunidad;
     private List<ProvinciaEntity> listaProvincia;
     private List<PuebloEntity> listaPueblo;
 
-    private String url = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroMunicipioProducto/ ";
+    private final Resources resources;
 
-    public Model(Context application) {
-        AppDatabase appDatabase = AppDatabase.getDatabase(application);
+
+    private Model(Context application) {
+        appDatabase = AppDatabase.getDatabase(application);
 
         iDao = appDatabase.dao();
-        //region Pruebas
 
-        listaComunidad = new ArrayList<>();
-
-        //new ObtenerListaComunidadesTask(iDao).execute();
-
-        listaComunidad.add(new ComunidadEntity(1,"hola"));
-        listaComunidad.add(new ComunidadEntity(2,"adios"));
-
-        listaProvincia = new ArrayList<>();
-        listaProvincia.add(new ProvinciaEntity(1,1,"como te llamas"));
-        listaProvincia.add(new ProvinciaEntity(2,1,"encantado de conocerte"));
-        listaProvincia.add(new ProvinciaEntity(3,2,"ya nos veremos"));
-        listaProvincia.add(new ProvinciaEntity(4,2,"que te vaya bien"));
-
-        listaPueblo = new ArrayList<>();
-        listaPueblo.add(new PuebloEntity(1,1,"hi"));
-        listaPueblo.add(new PuebloEntity(2,1,"helado"));
-        listaPueblo.add(new PuebloEntity(3,2,"adiós"));
-        listaPueblo.add(new PuebloEntity(4,2,"almirante"));
-        listaPueblo.add(new PuebloEntity(5,2,"casa"));
-        //endregion
+        resources = application.getResources();
     }
 
     public static Model getInstance(Context context) {
@@ -60,46 +54,101 @@ public class Model implements IModel
     }
 
     @Override
-    public List<ComunidadEntity> obtenerListaComunidades()
+    public void obtenerListaComunidades(Response.Listener listener)
     {
-        return listaComunidad;
+        new ObtenerListaComunidadesTask(iDao,listener).execute();
     }
 
     @Override
-    public List<ProvinciaEntity> obtenerListaProvincias()
+    public void obtenerListaProvincias(Response.Listener listener,int codigoComunidad)
     {
-        return listaProvincia;
+        new ObtenerListaProvinciasTask(iDao,listener,codigoComunidad).execute();
     }
 
     @Override
-    public List<PuebloEntity> obtenerListaPueblos()
+    public void obtenerListaPueblos(Response.Listener listener, int codigoProvincia)
     {
-        return listaPueblo;
+        new ObtenerListaPueblosTask(iDao,listener,codigoProvincia).execute();
     }
 
     @Override
-    public List<Fuel> obtenerListaFuels() {
-        return null;
+    public void getTownStationsPrices(long pueblo, int gasType, Response.Listener listener,Response.ErrorListener errorListener, Context context)
+    {
+        new PriceRequest(context).getPrices(pueblo,gasType,listener,errorListener);
     }
+
 
     //region Tasks Classes
-    private static class ObtenerListaComunidadesTask extends AsyncTask<Void,Void,Void>
+    private class ObtenerListaComunidadesTask extends AsyncTask<Void, Void, List<ComunidadEntity>>
     {
-        public List<ComunidadEntity> lista;
         private IDao dao;
+        private Response.Listener listener;
 
-        public ObtenerListaComunidadesTask(IDao dao) {
-            this.dao = dao;
+        ObtenerListaComunidadesTask(IDao dao, Response.Listener listener)
+        {
+            this.dao  = dao;
+            this.listener = listener;
         }
 
         @Override
-        protected Void doInBackground(Void... voids)
-        {
-            //lista = dao.obtenerListaComunidad();
-            return null;
+        protected List<ComunidadEntity> doInBackground(Void... params) {
+            return dao.obtenerListaComunidad();
         }
 
+        @Override
+        protected void onPostExecute(List<ComunidadEntity> communityList) {
+           listener.onResponse(communityList);
+        }
     }
 
+    private class ObtenerListaProvinciasTask extends AsyncTask<Void, Void, List<ProvinciaEntity>>
+    {
+        private final Response.Listener listener;
+        private IDao dao;
+        private int codigoComunidad;
+
+        ObtenerListaProvinciasTask(IDao dao, Response.Listener listener, int codigoComunidad)
+        {
+            this.dao  = dao;
+            this.codigoComunidad = codigoComunidad;
+            this.listener = listener;
+        }
+
+        @Override
+        protected List<ProvinciaEntity> doInBackground(Void... params) {
+            return dao.obtenerListaProvincia(codigoComunidad);
+        }
+
+        @Override
+        protected void onPostExecute(List<ProvinciaEntity> provinciaEntities) {
+            listener.onResponse(provinciaEntities);
+        }
+    }
+
+    private class ObtenerListaPueblosTask extends AsyncTask<Void, Void, List<PuebloEntity>>
+    {
+        private final Response.Listener listener;
+        private IDao dao;
+        private int codigoProvincia;
+
+        ObtenerListaPueblosTask(IDao dao, Response.Listener listener, int codigoProvincia)
+        {
+            this.dao  = dao;
+            this.codigoProvincia = codigoProvincia;
+            this.listener = listener;
+        }
+
+        @Override
+        protected List<PuebloEntity> doInBackground(Void... params)
+        {
+            return dao.obtenerListaPueblo(codigoProvincia);
+        }
+
+        @Override
+        protected void onPostExecute(List<PuebloEntity> puebloEntities) {
+            listaPueblo = puebloEntities;
+            listener.onResponse(puebloEntities);
+        }
+    }
     //endregion
 }

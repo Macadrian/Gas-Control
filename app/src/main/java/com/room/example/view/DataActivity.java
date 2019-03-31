@@ -1,5 +1,7 @@
 package com.room.example.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,7 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.room.example.Fuel;
+import com.room.example.ListaGasolina;
 import com.room.example.R;
 import com.room.example.modelo.entidad.ComunidadEntity;
 import com.room.example.modelo.entidad.ProvinciaEntity;
@@ -18,10 +20,13 @@ import com.room.example.modelo.entidad.PuebloEntity;
 import com.room.example.presenter.DataPresenter;
 import com.room.example.presenter.IDataPresenter;
 
+import android.content.Intent;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 /**
  * View for the data acquiring activity, with the methods recommended in the project description.
@@ -42,11 +47,18 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
 
     private IDataPresenter iDataPresenter;
 
+    private long townCode;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_activity);
+
+        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)!= PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},1001);
+        }*/
 
         //region Inicialización
 
@@ -59,7 +71,10 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
         iDataPresenter = new DataPresenter(this);
 
         //endregion
+
         iDataPresenter.obtenerListaComunidades();
+        iDataPresenter.obtenerListaFuels();
+        setButton(false);
 
         //Cuando seleccionamos un Item de la Comunidad...
         spinnerCommunity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -67,17 +82,15 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                //Al seleccionar una comunidad, podemos activar el spinner de provincias.
+                ComunidadEntity object = (ComunidadEntity) parent.getItemAtPosition(position);
+                iDataPresenter.obtenerListaProvincias(object.getCodigo());
+
                 townTextView.setText("");
-                //Llamamos al presenter para asignar la lista de Provincias
-                iDataPresenter.obtenerListaProvincias();
+                setButton(false);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         //Cuando seleccionamos un Item de la Provincia...
@@ -86,22 +99,21 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                ProvinciaEntity object = (ProvinciaEntity) parent.getItemAtPosition(position);
+                iDataPresenter.obtenerListaPueblos(object.getCodigo());
+
                 townTextView.setText("");
-                iDataPresenter.obtenerListaPueblos();
+                setButton(false);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
+
 
         townTextView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
@@ -110,20 +122,35 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
+                iDataPresenter.gestionarBoton();
             }
         });
 
-        //Cuando seleccionamos un Item del gasoil...
-        spinnerFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        townTextView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Nos guardamos su código.
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PuebloEntity puebloElegido = (PuebloEntity) parent.getItemAtPosition(position);
+                townCode = puebloElegido.getCodigo();
             }
+        });
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                ListaGasolina.GasType gas = (ListaGasolina.GasType) spinnerFuel.getSelectedItem();
 
+                Bundle information = new Bundle();
+                information.putInt("GAS_TYPE", gas.getCodigo());
+                information.putLong("TOWN_NAME", townCode);
+
+                Intent intent = new Intent(getBaseContext(), PriceListActivity.class);
+                intent.putExtra("INFO",information);
+                startActivity(intent);
             }
         });
     }
@@ -131,38 +158,41 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
     @Override
     public void updateSpinnerCommunities(List<ComunidadEntity> lista)
     {
-        ArrayAdapter<ComunidadEntity> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lista);
+        ArrayAdapter<ComunidadEntity> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
         spinnerCommunity.setAdapter(adapter);
     }
 
     @Override
     public void updateSpinnerProvinces(List<ProvinciaEntity> lista)
     {
-        ArrayAdapter<ProvinciaEntity> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lista);
+        ArrayAdapter<ProvinciaEntity> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
         spinnerProvince.setAdapter(adapter);
     }
 
     @Override
     public void updateSpinnerTowns(List<PuebloEntity> lista)
     {
-        ArrayAdapter<PuebloEntity> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, lista);
+        ArrayAdapter<PuebloEntity> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
         townTextView.setAdapter(adapter);
     }
 
     @Override
-    public void updateSpinnerFuels(List<Fuel> lista)
+    public void updateSpinnerFuels(List<ListaGasolina.GasType> lista)
     {
-        ArrayAdapter<Fuel> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lista);
-        spinnerProvince.setAdapter(adapter);
+        ArrayAdapter<ListaGasolina.GasType> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lista);
+        spinnerFuel.setAdapter(adapter);
     }
 
     @Override
-    public String getPuebloElegido() {
-        return "";
+    public void setButton( boolean activado )
+    {
+        button.setEnabled(activado);
     }
 
     @Override
-    public String getFuelElegido() {
-        return "";
+    public String getPuebloEscrito()
+    {
+        return townTextView.getText().toString();
     }
+
 }
