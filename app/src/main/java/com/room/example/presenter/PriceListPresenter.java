@@ -1,15 +1,14 @@
 package com.room.example.presenter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.room.example.GasStation;
-import com.room.example.ListaGasolina;
+import com.room.example.R;
 import com.room.example.modelo.IModel;
 import com.room.example.modelo.Model;
-import com.room.example.modelo.entidad.PuebloEntity;
 import com.room.example.view.IPriceListActivity;
 import com.room.example.view.PriceListActivity;
 
@@ -21,11 +20,13 @@ public class PriceListPresenter implements IPriceListPresenter
     IModel iModel;
     IPriceListActivity iPriceListActivity;
     Context context;
+    Resources resources;
     public PriceListPresenter(PriceListActivity activity)
     {
         this.context = activity.getApplicationContext();
         iModel = Model.getInstance(context);
         iPriceListActivity = activity;
+        resources = context.getResources();
     }
 
 
@@ -49,7 +50,9 @@ public class PriceListPresenter implements IPriceListPresenter
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-
+                        iPriceListActivity.mostrarError(resources.getString(R.string.error_de_conexion));
+                        iPriceListActivity.mostrarProgreso(false);
+                        iPriceListActivity.mostrarSinResultados(true);
                     }
                 },
                 context);

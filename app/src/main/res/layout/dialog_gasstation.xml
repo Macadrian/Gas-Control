@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteX="8dp">
+
+
+    <TextView
+        android:id="@+id/id_addressTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="0sp"
+        android:text="Address:"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        android:paddingLeft="12dp"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:id="@+id/id_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AVENIDA MATILDE SALVADOR S/N"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:paddingLeft="12dp"
+        android:paddingTop="5dp"/>
+
+    <TextView
+        android:id="@+id/id_priceTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Price:"
+        android:textColor="@color/colorPrimary"
+        android:paddingLeft="12dp"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:id="@+id/id_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1.209"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:paddingLeft="12dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"/>
+</LinearLayout>

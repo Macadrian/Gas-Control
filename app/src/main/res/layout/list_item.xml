@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/id_price"
+        android:id="@+id/id_direccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -22,12 +22,12 @@
         tools:text="1.209" />
 
     <TextView
-        android:id="@+id/id_address"
+        android:id="@+id/id_addressTag"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="@+id/id_price"
-        app:layout_constraintTop_toBottomOf="@+id/id_price"
+        app:layout_constraintStart_toStartOf="@+id/id_direccion"
+        app:layout_constraintTop_toBottomOf="@+id/id_direccion"
         tools:text="AVENIDA MATILDE SALVADOR S/N" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

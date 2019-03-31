@@ -1,6 +1,5 @@
 package com.room.example;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,10 +45,10 @@ public class GasPriceAdapter extends ArrayAdapter<GasStation>
         LayoutInflater layoutInflater = LayoutInflater.from(contexto); // contexto.getLayoutInflater();
         View itemVista = layoutInflater.inflate(id_vista,null,true);
 
-        TextView precio = itemVista.findViewById(R.id.id_price);
+        TextView precio = itemVista.findViewById(R.id.id_direccion);
         precio.setText(getItem(position).getPrice().toString());
 
-        TextView direccion = itemVista.findViewById(R.id.id_address);
+        TextView direccion = itemVista.findViewById(R.id.id_addressTag);
         direccion.setText(getItem(position).getAddress());
 
         return  itemVista;

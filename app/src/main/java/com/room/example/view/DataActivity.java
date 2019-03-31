@@ -195,4 +195,6 @@ public class DataActivity extends AppCompatActivity implements IDataActivity
         return townTextView.getText().toString();
     }
 
+
+
 }

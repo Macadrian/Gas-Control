@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RoomExample</string>
+    <string name="error_de_conexion">La conexión ha fallado</string>
+    <string name="ok">OK</string>
+    <string name="map">MAP</string>
 
 </resources>
