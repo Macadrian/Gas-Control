@@ -31,6 +31,7 @@ public class PriceListActivity extends AppCompatActivity implements  IPriceListA
     ProgressBar loadinDataBar;
     ListView listaGasolineras;
     TextView noResult;
+    AlertDialog dialog;
 
     IPriceListPresenter iPriceListPresenter;
     Bundle bundle;
@@ -58,6 +59,12 @@ public class PriceListActivity extends AppCompatActivity implements  IPriceListA
                 openDialog((GasStation)parent.getItemAtPosition(position));
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dialog.dismiss();
     }
 
     @Override
@@ -115,7 +122,7 @@ public class PriceListActivity extends AppCompatActivity implements  IPriceListA
             }
         });
 
-        AlertDialog dialog = builder.create();
+        dialog = builder.create();
         dialog.show();
     }
 
