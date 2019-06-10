@@ -6,27 +6,31 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "componente_tabla")
-public class ComponentEntity
+@Entity(tableName = "comunidad_tabla")
+public class ComunidadEntity
 {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "codigo")
     @NonNull
-    private Integer codigo;
+    private int codigo;
 
     @ColumnInfo(name = "nombre")
     private String nombre;
 
-
-    public ComponentEntity( String nombre)
-    {
+    public ComunidadEntity(int codigo, String nombre) {
+        this.codigo = codigo;
         this.nombre = nombre;
     }
 
-    public ComponentEntity() {}
+    public ComunidadEntity() {
+    }
 
-    public Integer getCodigo() {
+    public int getCodigo() {
         return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public String getNombre() {

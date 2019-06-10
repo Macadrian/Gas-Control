@@ -6,31 +6,33 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "comida_tabla")
-public class MealEntity
-{
-    @PrimaryKey(autoGenerate = true)
+@Entity(tableName = "provincia_tabla")
+public class ProvinciaEntity {
+    @PrimaryKey
     @ColumnInfo(name = "codigo")
     @NonNull
-    private Integer codigo;
+    private int codigo;
+
+    @ColumnInfo(name = "idComunidad")
+    private int codigoComunidad;
 
     @ColumnInfo(name = "nombre")
     private String nombre;
 
-    @ColumnInfo(name = "imagen", typeAffinity = ColumnInfo.BLOB)
-    private byte[] imagen;
-
-    public MealEntity(String nombre, byte[] imagen)
-    {
+    public ProvinciaEntity(int codigo, int codigoComunidad, String nombre) {
+        this.codigo = codigo;
+        this.codigoComunidad = codigoComunidad;
         this.nombre = nombre;
-        this.imagen = imagen;
     }
-
-    public MealEntity() {}
 
     public int getCodigo() {
         return codigo;
     }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
 
     public String getNombre() {
         return nombre;
@@ -40,11 +42,13 @@ public class MealEntity
         this.nombre = nombre;
     }
 
-    public void setImagen( byte[] imagen) {
-        this.imagen = imagen;
+
+    public int getCodigoComunidad() { return codigoComunidad; }
+
+    public void setCodigoComunidad(int idComunidad) {
+        this.codigoComunidad = idComunidad;
     }
 
     @Override
     public String toString() { return "" + nombre; }
 }
-
